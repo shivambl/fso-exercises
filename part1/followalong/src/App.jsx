@@ -1,22 +1,31 @@
-const Hello = (props) => {
-    console.log(props);
-    return (
-        <div>
-            <p>Hello {props.name}, you are {props.age} years old</p>
-        </div>
-    )
-}
+import { useState } from 'react'
+
+const Display = ({count}) => <p>{count}</p>
+
+const Button = ({ text, onClick }) => <button onClick={onClick}>{text}</button>
 
 const App = () => {
-    const name = "Peter"
-    const age = 10
+    const [count, setCount] = useState(0)
+    const setZero = () => setCount(0)
+    const plusOne = () => setCount(count + 1)
+    const minusOne = () => setCount(count - 1)
 
     return (
-        <div>
-            <h1>Greetings</h1>
-            <Hello name="Shivam" age={20 + 5} />
-            <Hello name={name} age={age} />
-        </div>
+        <>
+            <Display count={count} />
+            <Button
+                text='Minus'
+                onClick={minusOne}
+            />
+            <Button
+                text='Reset'
+                onClick={setZero}
+            />
+            <Button
+                text='Plus'
+                onClick={plusOne}
+            />
+        </>
     )
 }
 
