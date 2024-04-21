@@ -8,16 +8,18 @@ const Content = (props) => {
     console.log(props);
     return (
         <>
-            <p>
-                {props.cinfo.part1} {props.cinfo.exercises1}
-            </p>
-            <p>
-                {props.cinfo.part2} {props.cinfo.exercises2}
-            </p>
-            <p>
-                {props.cinfo.part3} {props.cinfo.exercises3}
-            </p>
+            <Part partname={props.cinfo.part1} exercises={props.cinfo.exercises1} />
+            <Part partname={props.cinfo.part2} exercises={props.cinfo.exercises2} />
+            <Part partname={props.cinfo.part3} exercises={props.cinfo.exercises3} />
         </>
+    )
+}
+
+const Part = (props) => {
+    return (
+        <p>
+            {props.partname} {props.exercises}
+        </p>
     )
 }
 
