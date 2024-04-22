@@ -5,25 +5,31 @@ const Display = ({count}) => <p>{count}</p>
 const Button = ({ text, onClick }) => <button onClick={onClick}>{text}</button>
 
 const App = () => {
-    const [count, setCount] = useState(0)
-    const setZero = () => setCount(0)
-    const plusOne = () => setCount(count + 1)
-    const minusOne = () => setCount(count - 1)
+    const [lcount, setLcount] = useState(0)
+    const [rcount, setRcount] = useState(0)
+
+    const handleLeftClick = () => setLcount(lcount + 1)
+    const handleRightClick = () => setRcount(rcount + 1)
+    const handleReset = () => {
+        setLcount(0)
+        setRcount(0)
+    }
 
     return (
         <>
-            <Display count={count} />
+            <Display count={lcount} />
             <Button
-                text='Minus'
-                onClick={minusOne}
+                text='Left button'
+                onClick={handleLeftClick}
+            />
+            <Display count={rcount} />
+            <Button
+                text='Right button'
+                onClick={handleRightClick}
             />
             <Button
-                text='Reset'
-                onClick={setZero}
-            />
-            <Button
-                text='Plus'
-                onClick={plusOne}
+                text='Reset All'
+                onClick={handleReset}
             />
         </>
     )
