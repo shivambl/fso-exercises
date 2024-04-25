@@ -4,6 +4,15 @@ const Display = ({text}) => <p>{text}</p>
 
 const Button = ({ text, onClick }) => <button onClick={onClick}>{text}</button>
 
+const History = ({ allClicks }) => {
+    if (allClicks.length === 0) {
+        return <Display text="Use the app by clicking buttons." />
+    }
+
+    return <Display text={"Click history = " + allClicks.join(', ')} />
+
+}
+
 const App = () => {
     const [lcount, setLcount] = useState(0)
     const [rcount, setRcount] = useState(0)
@@ -40,7 +49,7 @@ const App = () => {
                 onClick={handleRightClick}
             />
             <Display text={"Total = " + total} />
-            <Display text={"Click history = " + allClicks.join(', ')} />
+            <History allClicks={allClicks} />
             <Button
                 text='Reset All'
                 onClick={handleReset}
