@@ -12,21 +12,46 @@ const App = () => {
         'The only way to go fast, is to go well.'
     ]
 
+    // State
+
     const [selected, setSelected] = useState(0)
+    const [scores, setScores] = useState(Array(anecdotes.length).fill(0))
 
     const getRandomInt = (max) => {
         return Math.floor(Math.random() * max);
     }
+
+    const getMaxVoteIndex = () => {
+        let index = 0
+        scores.forEach((score, i) => {
+            if (score > scores[index]) index = i
+        })
+        return index
+    }
+
+    // Handlers
 
     const handleRandomClick = () => {
         const updatedSelected = getRandomInt(anecdotes.length)
         setSelected(updatedSelected)
     }
 
+    const handleVoteClick = () => {
+        const updatedScores = [...scores]
+        updatedScores[selected] += 1
+        setScores(updatedScores)
+    }
+
     return (
         <div>
+            <h1>Anecdote of the day</h1>
             <button onClick={handleRandomClick}>next anecdote</button>
             <p>{anecdotes[selected]}</p>
+            <p>Votes = {scores[selected]}</p>
+            <button onClick={handleVoteClick}>vote</button>
+
+            <h1>Anecdote with most votes</h1>
+            <p>{anecdotes[getMaxVoteIndex()]}</p>
         </div>
     )
 }
