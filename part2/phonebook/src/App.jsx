@@ -1,4 +1,5 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
+import axios from 'axios'
 
 import Filter from './components/Filter'
 import PersonForm from './components/PersonForm'
@@ -8,23 +9,22 @@ const App = () => {
 
     // State
 
-    const [persons, setPersons] = useState([
-        {
-            name: "Ghanshyam Sundaram",
-            number: "9090909090"
-        },
-        {
-            name: 'Adrian Newey',
-            number: '0987654321'
-        },
-        {
-            name: 'Toto Wolff',
-            number: '420106070'
-        }
-    ])
+    const [persons, setPersons] = useState([])
     const [newName, setNewName] = useState('')
     const [newNumber, setNewNumber] = useState('')
     const [filter, setFilter] = useState('')
+
+    // Effects
+
+    useEffect(() => {
+        console.log("Using effect to GET data ...")
+        axios
+            .get("http://localhost:3001/persons")
+            .then(response => {
+                console.log("Response received:", response)
+                setPersons(response.data)
+            })
+    }, [])
 
     // Handlers
 
