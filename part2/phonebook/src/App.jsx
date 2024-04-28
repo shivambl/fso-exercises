@@ -20,11 +20,16 @@ const App = () => {
         event.preventDefault()
         console.log("Add person:", newName)
 
-        const personObject = {
-            name: newName
-        }
+        const isPersonAlreadyPresent = persons.find(person => person.name === newName)
 
-        setPersons(persons.concat(personObject))
+        if (isPersonAlreadyPresent === undefined) {
+            const personObject = {
+                name: newName
+            }
+            setPersons(persons.concat(personObject))
+        } else {
+            window.alert(`${newName} is already added to the phonebook`)
+        }
         setNewName('')
     }
 
