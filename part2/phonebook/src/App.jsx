@@ -1,9 +1,9 @@
 import { useState, useEffect } from 'react'
-import axios from 'axios'
 
 import Filter from './components/Filter'
 import PersonForm from './components/PersonForm'
 import Persons from './components/Persons'
+import personService from './services/persons'
 
 const App = () => {
 
@@ -18,11 +18,11 @@ const App = () => {
 
     useEffect(() => {
         console.log("Using effect to GET data ...")
-        axios
-            .get("http://localhost:3001/persons")
-            .then(response => {
-                console.log("Response received:", response)
-                setPersons(response.data)
+        personService
+            .getAll()
+            .then(initialPersons => {
+                console.log("Initial persons:", initialPersons)
+                setPersons(initialPersons)
             })
     }, [])
 
@@ -48,14 +48,12 @@ const App = () => {
                 number: newNumber
             }
 
-            axios
-                .post("http://localhost:3001/persons", personObject)
-                .then(response => {
-                    console.log("POST Response:", response)
-                    const returnedPerson = response.data
+            personService
+                .create(personObject)
+                .then(returnedPerson => {
+                    console.log("Created person:", returnedPerson)
                     setPersons(persons.concat(returnedPerson))
                 })
-
         }
         else {
             window.alert(`${newName} is already added to the phonebook`)
