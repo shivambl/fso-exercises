@@ -4,8 +4,9 @@ const Note = ({ note, toggleImportance }) => {
         : 'mark important'
 
     return (
-        <li>
+        <li className="note">
             {note.content}
+            &ensp;
             <button onClick={toggleImportance}>
                 {label}
             </button>
