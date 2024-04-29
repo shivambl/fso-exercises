@@ -19,4 +19,10 @@ const remove = id => {
         .then(resp => resp.data)
 }
 
-export default { getAll, create, remove }
+const update = (id, newObject) => {
+    return axios
+        .put(`${baseUrl}/${id}`, newObject)
+        .then(resp => resp.data)
+}
+
+export default { getAll, create, remove, update }
