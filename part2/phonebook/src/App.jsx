@@ -4,6 +4,7 @@ import Filter from './components/Filter'
 import PersonForm from './components/PersonForm'
 import Persons from './components/Persons'
 import personService from './services/persons'
+import Notification from './components/Notification'
 
 const App = () => {
 
@@ -13,6 +14,7 @@ const App = () => {
     const [newName, setNewName] = useState('')
     const [newNumber, setNewNumber] = useState('')
     const [filter, setFilter] = useState('')
+    const [notifMessage, setNotifMessage] = useState('Notified !!!')
 
     // Effects
 
@@ -53,6 +55,7 @@ const App = () => {
                 .then(returnedPerson => {
                     console.log("Created person:", returnedPerson)
                     setPersons(persons.concat(returnedPerson))
+                    showNotification(`${returnedPerson.name} added`)
                 })
         }
         else {
@@ -68,9 +71,10 @@ const App = () => {
                     .update(existingPerson.id, personObject)
                     .then(returnedPerson => {
                         console.log("Modified person:", returnedPerson)
-                        setPersons(persons.map(p => 
+                        setPersons(persons.map(p =>
                             p.id === returnedPerson.id ? returnedPerson : p
                         ))
+                        showNotification(`${returnedPerson.name} modified`)
                     })
             }
         }
@@ -91,6 +95,7 @@ const App = () => {
             .then(returnedPerson => {
                 console.log("Deleted person:", returnedPerson)
                 setPersons(persons.filter(person => person.id !== id))
+                showNotification(`${returnedPerson.name} deleted`)
             })
     }
 
@@ -102,9 +107,16 @@ const App = () => {
             return lc_name.includes(lc_filter)
         })
 
+    const showNotification = message => {
+        setNotifMessage(message)
+        setTimeout(() => setNotifMessage(null), 3000)
+    }
+
     return (
         <div>
             <h1>Phonebook</h1>
+
+            <Notification message={notifMessage} />
 
             <Filter
                 filter={filter}
