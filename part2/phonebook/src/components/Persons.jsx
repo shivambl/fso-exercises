@@ -1,16 +1,29 @@
-const PersonLine = ({ name, number }) => {
+const PersonLine = ({ name, number, deletePerson }) => {
     return (
         <p>
-            {name} {number}
+            {name}
+            &ensp;
+            {number}
+            &ensp;
+            <button onClick={deletePerson}>delete</button>
         </p>
     )
 }
 
-const Persons = ({ personsToShow }) => {
+const Persons = ({ personsToShow, deletePersonOf }) => {
     return (
         <>
             {personsToShow.map(person =>
-                <PersonLine key={person.name} name={person.name} number={person.number} />
+                <PersonLine
+                    key={person.id}
+                    name={person.name}
+                    number={person.number}
+                    deletePerson={() => {
+                        if (confirm(`Delete ${person.name} ?`)) {
+                            deletePersonOf(person.id)
+                        }
+                    }}
+                />
             )}
         </>
     )

@@ -68,6 +68,16 @@ const App = () => {
         setFilter(updatedFilter)
     }
 
+    const deletePersonOf = id => {
+        console.log("Delete person with ID:", id)
+        personService
+            .remove(id)
+            .then(returnedPerson => {
+                console.log("Deleted person:", returnedPerson)
+                setPersons(persons.filter(person => person.id !== id))
+            })
+    }
+
     const personsToShow = filter === ''
         ? persons
         : persons.filter(person => {
@@ -97,6 +107,7 @@ const App = () => {
             <h2>Directory</h2>
             <Persons
                 personsToShow={personsToShow}
+                deletePersonOf={deletePersonOf}
             />
         </div>
     )
