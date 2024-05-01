@@ -16,7 +16,7 @@ const App = () => {
     const [filter, setFilter] = useState('')
     const [notif, setNotif] = useState({
         isError: false,
-        message: 'Notified!'
+        message: null
     })
 
     // Effects
@@ -28,6 +28,10 @@ const App = () => {
             .then(initialPersons => {
                 console.log("Initial persons:", initialPersons)
                 setPersons(initialPersons)
+            })
+            .catch(error => {
+                console.log("Failed to get initial notes:", error)
+                showNotification(true, "Failed to get initial notes.")
             })
     }, [])
 
@@ -60,6 +64,10 @@ const App = () => {
                     setPersons(persons.concat(returnedPerson))
                     showNotification(false, `${returnedPerson.name} added`)
                 })
+                .catch(error => {
+                    console.log("Failed to create new person:", error);
+                    showNotification(true, `Failed to create new person ${personObject.name}`)
+                })
         }
         else {
             if (existingPerson.number === newNumber) {
@@ -78,6 +86,11 @@ const App = () => {
                             p.id === returnedPerson.id ? returnedPerson : p
                         ))
                         showNotification(false, `${returnedPerson.name} modified`)
+                    })
+                    .catch(error => {
+                        console.log(`Failed to update ${existingPerson.name}:`, error)
+                        setPersons(persons.filter(p => p.id !== existingPerson.id))
+                        showNotification(true, `Person ${existingPerson.name} has already been removed`)
                     })
             }
         }
@@ -99,6 +112,11 @@ const App = () => {
                 console.log("Deleted person:", returnedPerson)
                 setPersons(persons.filter(person => person.id !== id))
                 showNotification(false, `${returnedPerson.name} deleted`)
+            })
+            .catch(error => {
+                console.log(`Failed to delete ${id}:`, error)
+                setPersons(persons.filter(person => person.id !== id))
+                showNotification(false, `Person ${id} has already been deleted`)
             })
     }
 
