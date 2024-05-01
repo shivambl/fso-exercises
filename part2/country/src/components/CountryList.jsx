@@ -1,6 +1,6 @@
 import Country from "./Country"
 
-const CountryList = ({ countries }) => {
+const CountryList = ({ countries, handleCountryClickOf }) => {
     if (!countries) return null
     else if (countries.length > 10) return <p>Too many matches, specify another filter</p>
     else if (countries.length === 1) return <Country country={countries[0]} />
@@ -10,6 +10,10 @@ const CountryList = ({ countries }) => {
             {countries.map(c =>
                 <li key={c.tld}>
                     {c.name.common}
+                    &ensp;
+                    <button onClick={() => handleCountryClickOf(c.name.common)}>
+                        show
+                    </button>
                 </li>
             )}
         </ol>

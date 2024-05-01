@@ -29,6 +29,9 @@ const App = () => {
         )
     console.log("Countries to show:", countriesToShow)
 
+    // Handlers
+    const handleCountryClickOf = name => setCountryFilter(name)
+
     return (
         <div>
             <h1>Country data</h1>
@@ -42,7 +45,10 @@ const App = () => {
                 />
             </form>
 
-            <CountryList countries={countriesToShow} />
+            <CountryList
+                countries={countriesToShow}
+                handleCountryClickOf={handleCountryClickOf}
+            />
         </div>
     )
 }
