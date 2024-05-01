@@ -14,7 +14,10 @@ const App = () => {
     const [newName, setNewName] = useState('')
     const [newNumber, setNewNumber] = useState('')
     const [filter, setFilter] = useState('')
-    const [notifMessage, setNotifMessage] = useState('Notified !!!')
+    const [notif, setNotif] = useState({
+        isError: false,
+        message: 'Notified!'
+    })
 
     // Effects
 
@@ -55,7 +58,7 @@ const App = () => {
                 .then(returnedPerson => {
                     console.log("Created person:", returnedPerson)
                     setPersons(persons.concat(returnedPerson))
-                    showNotification(`${returnedPerson.name} added`)
+                    showNotification(false, `${returnedPerson.name} added`)
                 })
         }
         else {
@@ -74,7 +77,7 @@ const App = () => {
                         setPersons(persons.map(p =>
                             p.id === returnedPerson.id ? returnedPerson : p
                         ))
-                        showNotification(`${returnedPerson.name} modified`)
+                        showNotification(false, `${returnedPerson.name} modified`)
                     })
             }
         }
@@ -95,7 +98,7 @@ const App = () => {
             .then(returnedPerson => {
                 console.log("Deleted person:", returnedPerson)
                 setPersons(persons.filter(person => person.id !== id))
-                showNotification(`${returnedPerson.name} deleted`)
+                showNotification(false, `${returnedPerson.name} deleted`)
             })
     }
 
@@ -107,16 +110,23 @@ const App = () => {
             return lc_name.includes(lc_filter)
         })
 
-    const showNotification = message => {
-        setNotifMessage(message)
-        setTimeout(() => setNotifMessage(null), 3000)
+    const showNotification = (isError, message) => {
+        const updatedNotif = { isError, message }
+        setNotif(updatedNotif)
+        setTimeout(() => setNotif({
+            isError: false,
+            message: null
+        }), 3000)
     }
 
     return (
         <div>
             <h1>Phonebook</h1>
 
-            <Notification message={notifMessage} />
+            <Notification
+                isError={notif.isError}
+                message={notif.message}
+            />
 
             <Filter
                 filter={filter}
